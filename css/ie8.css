@@ -1,0 +1,43 @@
+body {
+
+
+}
+	section{
+		color:#000;
+	}
+	section.odd{
+		background-color:#FFF;
+	
+	}
+	section.even{
+		background-color:#CDCDCD;
+	}
+
+	}
+	section:nth-child(odd) {
+
+	background-color:#CDCDCD;
+	}
+	
+	div.row{
+		text-align:center;
+	}
+	
+	div.col-lg-3{
+		float:none;
+	}
+	
+	.navbar-default .navbar-header .navbar-brand,
+	.navbar-default.affix .navbar-header .navbar-brand{
+		background-image:none !important;
+		color:#FF0000;
+	}
+	header .header-content .header-content-inner H1{
+		background-image:none !important;
+		color:#FFFFFF;
+	}
+	
+	.navbar-default .nav > LI > A:hover{
+		color:#FF0000 !important;
+	}
+	
