@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Net.Mail;
 
 namespace api
 {
@@ -25,11 +26,34 @@ namespace api
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             name = name ?? data?.name;
 
-            string responseMessage = string.IsNullOrEmpty(name)
-                ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-                : $"Hello, {name}. This HTTP triggered function executed successfully.";
+            MailMessage msg = new MailMessage();
+            string infoEmail = Environment.GetEnvironmentVariable("INFO_EMAIL_ADDRESS", EnvironmentVariableTarget.Process);
+            string infoName = Environment.GetEnvironmentVariable("INFO_EMAIL_ADDRESS_NAME", EnvironmentVariableTarget.Process);
+            string user = Environment.GetEnvironmentVariable("USER", EnvironmentVariableTarget.Process);
+            string pwd = Environment.GetEnvironmentVariable("PWD", EnvironmentVariableTarget.Process);
+            msg.To.Add(new MailAddress("Liam.Elliott@gmail.com", "Liam Elliott"));
+            msg.From = new MailAddress(infoEmail, infoName);
+            msg.Subject = "This is a Test Mail";
+            msg.Body = "This is a test message using Exchange OnLine";
+            msg.IsBodyHtml = true;
 
-            return new OkObjectResult(responseMessage);
+            SmtpClient client = new SmtpClient();
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(user, pwd);
+            client.Port = 587; 
+            client.Host = "smtp.office365.com";
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = true;
+            try
+            {
+                client.Send(msg);
+                
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestResult();
+            }
+            return new OkObjectResult("Sent");
         }
     }
 }
