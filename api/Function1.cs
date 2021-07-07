@@ -31,29 +31,31 @@ namespace api
             string infoName = Environment.GetEnvironmentVariable("INFO_EMAIL_ADDRESS_NAME", EnvironmentVariableTarget.Process);
             string user = Environment.GetEnvironmentVariable("USER", EnvironmentVariableTarget.Process);
             string pwd = Environment.GetEnvironmentVariable("PWD", EnvironmentVariableTarget.Process);
-            msg.To.Add(new MailAddress("Liam.Elliott@gmail.com", "Liam Elliott"));
-            msg.From = new MailAddress(infoEmail, infoName);
-            msg.Subject = "This is a Test Mail";
-            msg.Body = "This is a test message using Exchange OnLine";
-            msg.IsBodyHtml = true;
 
-            SmtpClient client = new SmtpClient();
-            client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential(user, pwd);
-            client.Port = 587; 
-            client.Host = "smtp.office365.com";
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.EnableSsl = true;
-            try
-            {
-                client.Send(msg);
+            return new OkObjectResult($"{infoEmail}: {infoName}: {user}");
+            //msg.To.Add(new MailAddress("Liam.Elliott@gmail.com", "Liam Elliott"));
+            //msg.From = new MailAddress(infoEmail, infoName);
+            //msg.Subject = "This is a Test Mail";
+            //msg.Body = "This is a test message using Exchange OnLine";
+            //msg.IsBodyHtml = true;
+
+            //SmtpClient client = new SmtpClient();
+            //client.UseDefaultCredentials = false;
+            //client.Credentials = new System.Net.NetworkCredential(user, pwd);
+            //client.Port = 587; 
+            //client.Host = "smtp.office365.com";
+            //client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //client.EnableSsl = true;
+            //try
+            //{
+            //    client.Send(msg);
                 
-            }
-            catch (Exception ex)
-            {
-                return new BadRequestResult();
-            }
-            return new OkObjectResult("Sent");
+            //}
+            //catch (Exception ex)
+            //{
+            //    return new BadRequestResult();
+            //}
+            //return new OkObjectResult("Sent");
         }
     }
 }
