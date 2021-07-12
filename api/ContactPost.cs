@@ -27,12 +27,19 @@ namespace api
 
             if (req.Method.Equals("post", StringComparison.CurrentCultureIgnoreCase))
              {
-                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-                dynamic data = JsonConvert.DeserializeObject(requestBody);
-                name = data.name_txt;
-                contactEmail = data.email_txt;
-                contactPhone = data.phone_txt;
-                message = data.message_txt;
+                try
+                {
+                    string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                    dynamic data = JsonConvert.DeserializeObject(requestBody);
+                    name = data.name_txt;
+                    contactEmail = data.email_txt;
+                    contactPhone = data.phone_txt;
+                    message = data.message_txt;
+                }
+                catch (Exception e)
+                {
+                    return new OkObjectResult(e.Message);
+                }
             }
             else
             {
