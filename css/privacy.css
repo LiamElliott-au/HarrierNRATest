@@ -1,0 +1,51 @@
+.PrivacyL1{
+	font-size:12pt;
+	color:#1a3668;
+	font-weight:bold;
+	padding-bottom:15px;
+}
+.PL1Label{
+	width:25px;
+	margin-left:10px;
+	float:left;
+	height:100%;
+}
+.PL1Content{
+	margin-left:30px;
+	height:100%;
+}
+.PrivacyL2{
+	font-size:10pt;
+	color:#000000;
+	font-weight:normal; 
+	padding-top:15px;
+}
+.PL2Label{
+	width:30px;
+	margin-left:10px;
+	float:left; 
+	height:100%;
+}
+.PL2Content{
+	margin-left:40px;
+	height:100%;
+}
+.PrivacyL3{
+	font-size:10pt;
+	color:#000000;
+	font-weight:normal; 
+}
+.PL3Label{
+	width:10px;
+	float:left; 
+	height:100%;
+}
+.PL3Content{
+	margin-left:30px;
+	height:100%;
+}
+.PrivacySign{
+	margin-top:10px;
+	padding-top:10px;
+	border-top:1px solid #CDCDCD;
+}
