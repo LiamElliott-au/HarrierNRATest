@@ -42,6 +42,7 @@ namespace api
             SendGridMessage msg = new SendGridMessage();
             msg.Subject = "NRA Contact Request";
             msg.From = new EmailAddress(infoEmail, infoName);
+            msg.Personalizations = new List<Personalization> { personalisation };
             msg.HtmlContent = $"Request from: {name}<br /><br />email: {contactEmail}<br /><br />Phone: {contactPhone}";
             
 
