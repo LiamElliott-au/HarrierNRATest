@@ -43,11 +43,11 @@ namespace api
             personalisation.Tos = new List<EmailAddress> { new EmailAddress { Email = infoEmail, Name = infoName } };
             
             SendGridMessage msg = new SendGridMessage();
-            msg.Subject = "NRA Contact Request";
+            msg.Subject = "National Roadside Assist Web Enquiry";
             msg.From = new EmailAddress(infoEmail, infoName);
             msg.Personalizations = new List<Personalization> { personalisation };
             
-            msg.HtmlContent = $"<p><strong> Contact Name:</strong>  {name}<br /><br /><strong>Contact Email Address:</strong>  {contactEmail}<br /><br /><strong>Contact Phone Number:</strong>  {contactPhone}<br/<br/><strong>Contact Message:</strong>  {message}<p>";
+            msg.HtmlContent = $"<p><strong> Contact Name:</strong>  {name}<br /><br /><strong>Contact Email Address:</strong>  {contactEmail}<br /><br /><strong>Contact Phone Number:</strong>  {contactPhone}<br/><br/><strong>Contact Message:</strong>  {message}<p>";
 
             try
             {
