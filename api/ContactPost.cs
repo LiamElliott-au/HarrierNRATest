@@ -6,7 +6,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using System.Linq;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Collections.Generic;
@@ -20,35 +20,20 @@ namespace api
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            string name;
-            string contactEmail;
-            string contactPhone;
-            string message;
+            string name = req.Query["name_txt"]; 
+            string contactEmail = req.Query["email_txt"];
+            string contactPhone = req.Query["phone_txt"];
+            string message = req.Query["message_txt"];
 
-            if (req.Method.Equals("post", StringComparison.CurrentCultureIgnoreCase))
-             {
-                try
-                {
-                    string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-                    dynamic data = JsonConvert.DeserializeObject(requestBody);
-                    name = data.name_txt;
-                    contactEmail = data.email_txt;
-                    contactPhone = data.phone_txt;
-                    message = data.message_txt;
-                }
-                catch (Exception e)
-                {
-                    return new OkObjectResult(e.Message);
-                }
-            }
-            else
+            if (req.HasFormContentType)
             {
-               name = req.Query?["name_txt"];
-               contactEmail = req.Query?["email_txt"];
-               contactPhone = req.Query?["phone_txt"];
-               message = req.Query?["message_txt"];
+                var form = await req.ReadFormAsync();
+                name = name ?? form["name_txt"].FirstOrDefault();
+                contactEmail = contactEmail ?? form["email_txt"].FirstOrDefault();
+                contactPhone = contactPhone ?? form["phone_txt"].FirstOrDefault();
+                message = message ?? form["message_txt"].FirstOrDefault();
             }
-            
+
             SendGridClient client = new SendGridClient(Environment.GetEnvironmentVariable("SENDGRID_KEY", EnvironmentVariableTarget.Process));
 
             string infoEmail = Environment.GetEnvironmentVariable("INFO_EMAIL_ADDRESS", EnvironmentVariableTarget.Process);
