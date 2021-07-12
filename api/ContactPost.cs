@@ -55,7 +55,8 @@ namespace api
                 }
                 else
                 {
-                    return new OkObjectResult($"Message failed: {response.Body}");
+                    var body = await response.Body.ReadAsStringAsync();
+                    return new OkObjectResult($"Message failed: {body}");
                 }
             }
             catch (Exception e)
