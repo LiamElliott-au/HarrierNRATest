@@ -20,19 +20,27 @@ namespace api
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
+            string name;
+            string contactEmail;
+            string contactPhone;
+            string message;
 
-            string name = req.Query["name_txt"];
-            string contactEmail = req.Query["email_txt"];
-            string contactPhone = req.Query["phone_txt"];
-            string message = req.Query["message_txt"];
-
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name_txt;
-            contactEmail = contactEmail ?? data?.email_txt;
-            contactPhone = contactPhone ?? data?.phone_txt;
-            message = message ?? data?.message_txt;
-
+            if (req.Method.Equals("post", StringComparison.CurrentCultureIgnoreCase))
+             {
+                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                dynamic data = JsonConvert.DeserializeObject(requestBody);
+                name = data.name_txt;
+                contactEmail = data.email_txt;
+                contactPhone = data.phone_txt;
+                message = data.message_txt;
+            }
+            else
+            {
+               name = req.Query?["name_txt"];
+               contactEmail = req.Query?["email_txt"];
+               contactPhone = req.Query?["phone_txt"];
+               message = req.Query?["message_txt"];
+            }
             
             SendGridClient client = new SendGridClient(Environment.GetEnvironmentVariable("SENDGRID_KEY", EnvironmentVariableTarget.Process));
 
