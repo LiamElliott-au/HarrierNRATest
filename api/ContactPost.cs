@@ -31,6 +31,7 @@ namespace api
             contactEmail = contactEmail ?? data?.email;
             contactPhone = contactPhone ?? data?.phone;
 
+            
             SendGridClient client = new SendGridClient(Environment.GetEnvironmentVariable("SENDGRID_KEY", EnvironmentVariableTarget.Process));
 
             string infoEmail = Environment.GetEnvironmentVariable("INFO_EMAIL_ADDRESS", EnvironmentVariableTarget.Process);
@@ -52,7 +53,7 @@ namespace api
 
                 if (response.StatusCode == System.Net.HttpStatusCode.Accepted)
                 {
-                    return new RedirectToRouteResult("/");
+                    return new RedirectResult("https//www.nationalroadsideassist.com.au");
                 }
                 else
                 {
