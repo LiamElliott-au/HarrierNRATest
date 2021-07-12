@@ -21,15 +21,17 @@ namespace api
             ILogger log)
         {
 
-            string name = req.Query["name"];
-            string contactEmail = req.Query["email"];
-            string contactPhone = req.Query["phone"];
+            string name = req.Query["name_txt"];
+            string contactEmail = req.Query["email_txt"];
+            string contactPhone = req.Query["phone_txt"];
+            string message = req.Query["message_txt"];
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
-            contactEmail = contactEmail ?? data?.email;
-            contactPhone = contactPhone ?? data?.phone;
+            name = name ?? data?.name_txt;
+            contactEmail = contactEmail ?? data?.email_txt;
+            contactPhone = contactPhone ?? data?.phone_txt;
+            message = message ?? data?.message_txt;
 
             
             SendGridClient client = new SendGridClient(Environment.GetEnvironmentVariable("SENDGRID_KEY", EnvironmentVariableTarget.Process));
@@ -44,8 +46,8 @@ namespace api
             msg.Subject = "NRA Contact Request";
             msg.From = new EmailAddress(infoEmail, infoName);
             msg.Personalizations = new List<Personalization> { personalisation };
-            msg.HtmlContent = $"Request from: {name}<br /><br />email: {contactEmail}<br /><br />Phone: {contactPhone}";
             
+            msg.HtmlContent = $"<p><strong> Contact Name:</strong>  {name}<br /><br /><strong>Contact Email Address:</strong>  {contactEmail}<br /><br /><strong>Contact Phone Number:</strong>  {contactPhone}<br/<br/><strong>Contact Message:</strong>  {message}<p>";
 
             try
             {
@@ -53,7 +55,7 @@ namespace api
 
                 if (response.StatusCode == System.Net.HttpStatusCode.Accepted)
                 {
-                    return new RedirectResult("https//www.nationalroadsideassist.com.au");
+                    return new RedirectResult("/");
                 }
                 else
                 {
