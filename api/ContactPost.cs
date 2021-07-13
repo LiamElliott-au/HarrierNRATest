@@ -39,12 +39,15 @@ namespace api
             string infoEmail = Environment.GetEnvironmentVariable("INFO_EMAIL_ADDRESS", EnvironmentVariableTarget.Process);
             string infoName = Environment.GetEnvironmentVariable("INFO_EMAIL_ADDRESS_NAME", EnvironmentVariableTarget.Process);
 
+            string fromEmail = Environment.GetEnvironmentVariable("FROM_EMAIL_ADDRESS", EnvironmentVariableTarget.Process);
+            string fromName = Environment.GetEnvironmentVariable("FROM_EMAIL_ADDRESS_NAME", EnvironmentVariableTarget.Process);
+
             var personalisation = new Personalization();
             personalisation.Tos = new List<EmailAddress> { new EmailAddress { Email = infoEmail, Name = infoName } };
             
             SendGridMessage msg = new SendGridMessage();
             msg.Subject = "National Roadside Assist Web Enquiry";
-            msg.From = new EmailAddress(infoEmail, infoName);
+            msg.From = new EmailAddress(fromEmail, fromName);
             msg.Personalizations = new List<Personalization> { personalisation };
             
             msg.HtmlContent = $"<p><strong> Contact Name:</strong>  {name}<br /><br /><strong>Contact Email Address:</strong>  {contactEmail}<br /><br /><strong>Contact Phone Number:</strong>  {contactPhone}<br/><br/><strong>Contact Message:</strong>  {message}<p>";
