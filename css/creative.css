@@ -16,6 +16,13 @@ body {
 
 }
 
+.banner {
+    background:red;
+    border-radius:10px;
+    margin: 2px;
+    padding: 1px;
+}
+
 #background{
 	position:fixed;
 	width:100%;
